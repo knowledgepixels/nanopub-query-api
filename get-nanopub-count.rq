@@ -1,0 +1,13 @@
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix np: <http://www.nanopub.org/nschema#>
+prefix npa: <http://purl.org/nanopub/admin/>
+prefix npx: <http://purl.org/nanopub/x/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix dct: <http://purl.org/dc/terms/>
+
+select ?count ?checksum where {
+  graph npa:graph {
+    npa:thisRepo npa:hasNanpubCount ?count ;
+      npa:hasNanopubChecksum ?checksum .
+  }
+}
