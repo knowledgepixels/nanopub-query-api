@@ -1,0 +1,18 @@
+prefix np: <http://www.nanopub.org/nschema#>
+prefix npa: <http://purl.org/nanopub/admin/>
+prefix npx: <http://purl.org/nanopub/x/>
+prefix dct: <http://purl.org/dc/terms/>
+
+select ?latest ?date where {
+  graph npa:graph {
+    ?_np_iri npa:hasValidSignatureForPublicKey ?pubkey .
+    ?latest npa:hasValidSignatureForPublicKey ?pubkey .
+    ?latest dct:created ?date .
+    filter not exists {
+      ?inp npx:invalidates ?latest .
+    }
+  }
+  graph npa:networkGraph {
+    ?latest (npx:supersedes)* ?_np_iri .
+  }
+}
