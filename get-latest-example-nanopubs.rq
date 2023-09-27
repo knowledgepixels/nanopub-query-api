@@ -1,0 +1,22 @@
+#+ endpoint: https://query.np.trustyuri.net/repo/last30d
+
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix np: <http://www.nanopub.org/nschema#>
+prefix npa: <http://purl.org/nanopub/admin/>
+prefix npx: <http://purl.org/nanopub/x/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix dct: <http://purl.org/dc/terms/>
+prefix search: <http://www.openrdf.org/contrib/lucenesail#>
+
+select ?np ?label ?pubkey ?date where {
+  graph npa:graph {
+    ?np rdfs:label ?label ;
+        npa:hasValidSignatureForPublicKey ?pubkey ;
+        dct:created ?date .
+    filter not exists { ?npx npx:invalidates ?np ; npa:hasValidSignatureForPublicKey ?pubkey . }
+    ?np npx:hasNanopubType npx:ExampleNanopub .
+    filter not exists { ?np npx:hasNanopubType npx:retracts . }
+  }
+}
+order by desc(?date)
+limit 20
