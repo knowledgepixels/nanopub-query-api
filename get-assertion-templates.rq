@@ -1,0 +1,25 @@
+#+ endpoint: https://query.np.trustyuri.net/repo/type/eTQjVtOmgGOmJ-g6w0s3ZHnkOKu4pMSyfUn4RfU33I0
+
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix np: <http://www.nanopub.org/nschema#>
+prefix npa: <http://purl.org/nanopub/admin/>
+prefix npx: <http://purl.org/nanopub/x/>
+prefix nt: <https://w3id.org/np/o/ntemplate/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix dct: <http://purl.org/dc/terms/>
+prefix search: <http://www.openrdf.org/contrib/lucenesail#>
+
+select ?np ?label ?tag ?pubkey ?date where {
+  graph npa:graph {
+    ?np npa:hasValidSignatureForPublicKey ?pubkey ;
+      dct:created ?date ;
+      np:hasAssertion ?assertion .
+    filter not exists { ?npx npx:invalidates ?np ; npa:hasValidSignatureForPublicKey ?pubkey . }
+    filter not exists { ?np npx:hasNanopubType npx:ExampleNanopub . }
+  }
+  graph ?assertion {
+    ?assertion a nt:AssertionTemplate ;
+      rdfs:label ?label .
+    optional { ?assertion nt:hasTag ?tag . }
+  }
+}
