@@ -1,4 +1,4 @@
-#+ endpoint: https://query.np.trustyuri.net/repo/last30d
+#+ endpoint: https://query.knowledgepixels.com/repo/last30d
 
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix np: <http://www.nanopub.org/nschema#>
