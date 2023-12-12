@@ -14,7 +14,7 @@ prefix dct: <http://purl.org/dc/terms/>
 select ?np ?label ?pubkey ?date where {
   # ==========
   # MULTI-VALUE PLACEHOLDER
-  { select ?service {
+  { select ?pubkeyhash {
     { select * { optional { ?a ?b ?c } } limit 1 }  # for Virtuoso
     # ----------
     # LIST VARIABLE ?_pubkeyhashes:
