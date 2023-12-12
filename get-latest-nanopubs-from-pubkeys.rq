@@ -22,8 +22,7 @@ select ?np ?label ?pubkey ?date where {
       78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 }
     filter(if(?n = 0, true, regex(?values, concat("^([^ ]* ){", str(?n) ,"}"))))
     bind(if(?n = 0, ?vs, replace(?vs, concat("^([^ ]* ){",str(?n),"}"), "")) as ?t)
-    bind(replace(?t, " .*", "") as ?v)
-    bind(?v as ?pubkeyhash)                                                          # <- ELEMENT VAR ?pubkeyhash
+    bind(replace(?t, " .*", "") as ?pubkeyhash)                                      # <- ELEMENT VAR ?pubkeyhash
   } }
   #==================================================================================#
   bind(uri(concat("https://query.np.trustyuri.net/repo/pubkey/", ?pubkeyhash)) as ?service)
