@@ -10,8 +10,7 @@ prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 prefix dct: <http://purl.org/dc/terms/>
 
 select ?np ?label ?pubkey ?date where {
-  #================================================================================#
-  # MULTI-VALUE PLACEHOLDER
+  #=========================== MULTI-VALUE PLACEHOLDER ============================#
   { select ?pubkeyhash {                                                           # <- ELEMENT VAR ?pubkeyhash
     { select * { optional { ?a ?b ?c } } limit 1 }  # for Virtuoso
     bind(?_pubkeyhashes as ?vs)                                                    # <- LIST VAR ?_pubkeyhashes
