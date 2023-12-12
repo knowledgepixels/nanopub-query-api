@@ -2,7 +2,7 @@
 #+ method: GET
 #+ endpoint: https://query.np.trustyuri.net/repo/empty
 #
-# example value for _services: "https://query.np.trustyuri.net/repo/pubkey/170211c91a70e67992d52c760de3f0052c8c7271bd3c225ef0347245e8517ff6 https://query.np.trustyuri.net/repo/pubkey/ebd69ed27fb838ad100415890185ac1cd89c81cc1fb04d38506f14178d5b14f0 https://query.np.trustyuri.net/repo/pubkey/2a6683923dcbd9810ef4e5debda8c4152c297b12303e286622bbbb0ed1884384"
+# example value for ?_services: "https://query.np.trustyuri.net/repo/pubkey/170211c91a70e67992d52c760de3f0052c8c7271bd3c225ef0347245e8517ff6 https://query.np.trustyuri.net/repo/pubkey/ebd69ed27fb838ad100415890185ac1cd89c81cc1fb04d38506f14178d5b14f0 https://query.np.trustyuri.net/repo/pubkey/2a6683923dcbd9810ef4e5debda8c4152c297b12303e286622bbbb0ed1884384"
 
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix np: <http://www.nanopub.org/nschema#>
