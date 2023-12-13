@@ -24,7 +24,7 @@ select ?np ?label ?pubkey ?date where {
   #===============================#
   bind(uri(concat("https://query.np.trustyuri.net/repo/pubkey/", ?pubkeyhash)) as ?service)
   
-  service ?service { select distinct ?np ?label ?pubkey ?date where {
+  service ?service {
     graph npa:graph {
       ?np rdfs:label ?label ;
           npa:hasValidSignatureForPublicKey ?pubkey ;
@@ -33,7 +33,7 @@ select ?np ?label ?pubkey ?date where {
       filter not exists { ?np npx:hasNanopubType npx:ExampleNanopub . }
       filter not exists { ?np npx:hasNanopubType npx:retracts . }
     }
-  } }
+  }
 }
 order by desc(?date)
 limit 100
