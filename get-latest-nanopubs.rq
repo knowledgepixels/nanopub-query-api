@@ -19,4 +19,4 @@ select ?np ?label ?pubkey ?date where {
   }
 }
 order by desc(?date)
-limit 20
+limit 100
