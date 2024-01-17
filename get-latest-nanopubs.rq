@@ -10,9 +10,9 @@ prefix search: <http://www.openrdf.org/contrib/lucenesail#>
 
 select ?np ?label ?pubkey ?date where {
   graph npa:graph {
-    ?np rdfs:label ?label ;
-        npa:hasValidSignatureForPublicKey ?pubkey ;
-        dct:created ?date .
+    ?np npa:hasValidSignatureForPublicKey ?pubkey .
+    ?np dct:created ?date .
+    optional { ?np rdfs:label ?label . }
     filter not exists { ?npx npx:invalidates ?np ; npa:hasValidSignatureForPublicKey ?pubkey . }
     filter not exists { ?np npx:hasNanopubType npx:ExampleNanopub . }
     filter not exists { ?np npx:hasNanopubType npx:retracts . }
