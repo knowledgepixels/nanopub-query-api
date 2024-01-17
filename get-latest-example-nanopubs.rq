@@ -23,8 +23,6 @@ select ?np ?label ?userid ?username ?date where {
       ?i_np npa:hasValidSignatureForPublicKey ?pubkey ;
         np:hasAssertion ?i_assertion .
       filter not exists { ?i_npx npx:invalidates ?i_np ; npa:hasValidSignatureForPublicKey ?pubkey . }
-      filter not exists { ?i_np npx:hasNanopubType npx:ExampleNanopub . }
-      filter not exists { ?i_np npx:hasNanopubType npx:retracts . }
     }
     graph ?i_assertion {
       ?userid foaf:name ?username .
