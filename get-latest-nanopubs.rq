@@ -20,9 +20,9 @@ select ?np ?label ?userid ?username ?date where {
   }
   optional {
     graph npa:graph {
-      ?i_np npa:hasValidSignatureForPublicKey ?pubkey ;
+      ?i_np npa:hasValidSignatureForPublicKey ?i_pubkey ;
         np:hasAssertion ?i_assertion .
-      filter not exists { ?i_npx npx:invalidates ?i_np ; npa:hasValidSignatureForPublicKey ?pubkey . }
+      filter not exists { ?i_npx npx:invalidates ?i_np ; npa:hasValidSignatureForPublicKey ?i_pubkey . }
       filter not exists { ?i_np npx:hasNanopubType npx:ExampleNanopub . }
       filter not exists { ?i_np npx:hasNanopubType npx:retracts . }
     }
