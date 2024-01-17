@@ -18,18 +18,16 @@ select ?np ?label ?userid ?username ?date where {
     filter not exists { ?np npx:hasNanopubType npx:ExampleNanopub . }
     filter not exists { ?np npx:hasNanopubType npx:retracts . }
   }
-  optional {
+  optional { service <https://query.knowledgepixels.com/repo/type/d3V8q_YYTFHCC4sP5dxeE2W39ihEgzUYStVDGaCv_fw> {  # (type: http://purl.org/nanopub/x/declaredBy)
     graph npa:graph {
-      ?i_np npa:hasValidSignatureForPublicKey ?i_pubkey ;
+      ?i_np npa:hasValidSignatureForPublicKey ?pubkey ;
         np:hasAssertion ?i_assertion .
-      filter not exists { ?i_npx npx:invalidates ?i_np ; npa:hasValidSignatureForPublicKey ?i_pubkey . }
-      filter not exists { ?i_np npx:hasNanopubType npx:ExampleNanopub . }
-      filter not exists { ?i_np npx:hasNanopubType npx:retracts . }
+      filter not exists { ?i_npx npx:invalidates ?i_np ; npa:hasValidSignatureForPublicKey ?pubkey . }
     }
     graph ?i_assertion {
       ?userid foaf:name ?username .
     }
-  }
+  } }
 }
 order by desc(?date)
 limit 50
