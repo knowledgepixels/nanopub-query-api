@@ -32,4 +32,4 @@ select ?np ?label ?userid ?username ?date where {
   } }
 }
 order by desc(?date)
-limit 100
+limit 50
