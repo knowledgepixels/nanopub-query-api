@@ -1,0 +1,21 @@
+#+ endpoint: https://query.knowledgepixels.com/repo/last30d
+
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix np: <http://www.nanopub.org/nschema#>
+prefix npa: <http://purl.org/nanopub/admin/>
+prefix npx: <http://purl.org/nanopub/x/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix dct: <http://purl.org/dc/terms/>
+
+select distinct ?user (count(distinct ?np) as ?count) where {
+  { select ?np ?user where {
+  graph npa:graph {
+    ?np npa:hasValidSignatureForPublicKey ?pubkey .
+    optional { ?np dct:creator ?user . }
+    optional { ?np np:hasProvenance ?user . }
+    filter(bound(?user))
+  }
+  } }
+}
+group by ?user ?username
+order by desc(?count)
