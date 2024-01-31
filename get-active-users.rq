@@ -1,0 +1,28 @@
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix np: <http://www.nanopub.org/nschema#>
+prefix npa: <http://purl.org/nanopub/admin/>
+prefix npx: <http://purl.org/nanopub/x/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix dct: <http://purl.org/dc/terms/>
+prefix prov: <http://www.w3.org/ns/prov#>
+prefix foaf: <http://xmlns.com/foaf/0.1/>
+
+select distinct ?userid (count(distinct ?np) as ?count) where {
+  { graph npa:graph {
+    ?np npa:hasValidSignatureForPublicKey ?pubkey .
+    ?np dct:creator ?userid .
+  } }
+  union
+  {
+    graph npa:graph {
+      ?np npa:hasValidSignatureForPublicKey ?pubkey .
+      ?np np:hasAssertion ?assertion .
+      ?np np:hasProvenance ?prov .
+    }
+    graph ?prov {
+      ?assertion prov:wasAttributedTo ?userid .
+    }
+  }
+}
+group by ?userid
+order by desc(?count)
