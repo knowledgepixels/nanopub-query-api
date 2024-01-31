@@ -23,6 +23,9 @@ select distinct ?userid (count(distinct ?np) as ?count) where {
       ?assertion prov:wasAttributedTo ?userid .
     }
   }
+  filter not exists {
+    graph npa:graph { ?np npa:hasSubIri ?userid . }
+  }
 }
 group by ?userid
 order by desc(?count)
