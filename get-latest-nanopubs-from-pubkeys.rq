@@ -32,7 +32,7 @@ select ?np ?label ?pubkey ?date where {
       ?np rdfs:label ?label ;
           npa:hasValidSignatureForPublicKey ?pubkey ;
           dct:created ?date .
-      filter not exists { ?npx npx:invalidates ?np ; npa:hasValidSignatureForPublicKey ?pubkey . }
+      filter not exists { ?npx npx:invalidates ?np ; npa:hasValidSignatureForPublicKey ?pubkeyx . filter(contains(?_pubkeyhashes, sha256(str(?pubkeyx)))) }
       filter not exists { ?np npx:hasNanopubType npx:ExampleNanopub . }
       filter not exists { ?np npx:hasNanopubType npx:retracts . }
     }
