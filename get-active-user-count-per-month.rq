@@ -31,4 +31,4 @@ select ?month (count(distinct ?userid) as ?usercount) where {
   bind(substr(str(?date), 0, 8) as ?month)
 }
 group by ?month
-order by asc(?month)
+order by desc(?month)
