@@ -13,7 +13,6 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
     ?np npa:hasValidSignatureForPublicKey ?__pubkey  .
     bind(?__pubkey as ?pubkey)
     ?np dct:created ?date .
-    ?np dct:creator ?__userid_iri .
     optional { ?np rdfs:label ?label . }
     filter not exists { ?npx npx:invalidates ?np ; npa:hasValidSignatureForPublicKey ?pubkey . }
 
@@ -46,6 +45,9 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
       ?__userid_iri foaf:name ?username .
     }
   } }
+  graph npa:graph {
+    ?np dct:creator ?__userid_iri .
+  }
   bind(?__userid_iri as ?userid)
 }
     
