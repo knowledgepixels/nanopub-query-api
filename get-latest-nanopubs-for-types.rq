@@ -14,6 +14,7 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
     bind(?__pubkey as ?pubkey)
     ?np dct:created ?date .
     ?np dct:creator ?__userid_iri .
+    bind(?__userid_iri as ?userid)
     optional { ?np rdfs:label ?label . }
     filter not exists { ?npx npx:invalidates ?np ; npa:hasValidSignatureForPublicKey ?pubkey . }
 
@@ -46,6 +47,5 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
       ?__userid_iri foaf:name ?username .
     }
   } }
-  bind(?__userid_iri as ?userid)
 } limit 50
     
