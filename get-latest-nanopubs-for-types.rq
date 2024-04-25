@@ -47,4 +47,4 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
       ?__userid_iri foaf:name ?username .
     }
   } }
-} limit 50
+}
