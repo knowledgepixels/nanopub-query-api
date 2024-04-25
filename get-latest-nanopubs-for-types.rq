@@ -46,5 +46,8 @@ select distinct ?np ?label ?userid ?username ?date where {
     }
   } }
   bind(?__userid_iri as ?userid)
+  graph npa:graph {
+    ?np dct:creator ?__userid_iri .
+  }
 }
     
