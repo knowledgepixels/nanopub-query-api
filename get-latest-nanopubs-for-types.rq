@@ -14,7 +14,7 @@ select distinct ?np ?label ?userid ?pubkey ?date where {  # ?username
     optional { ?np rdfs:label ?label . }
 
     #=================== MULTI-VALUE PLACEHOLDER ====================#------ config: ------
-    { select ?typev {                                                # <- VAR typev
+    { select ?type {                                                # <- VAR type
       bind(?_types as ?v)                                            # <- VAR _types
       optional {<x:> <x:> ?_types} # (for grlc to pick it up)        # <- VAR _types
       {select*{optional{?a ?b ?c}}limit 1} # (for some Virtuoso v.)  #
@@ -24,10 +24,9 @@ select distinct ?np ?label ?userid ?pubkey ?date where {  # ?username
       bind(concat("^([^",?sep,"]*",?sep,"){",str(?n),"}") as ?p)     #
       bind(concat(?sep,".*") as ?p0)                                 #
       filter(if(?n=0,true,regex(?v,?p))) # (=0 check for Virtuoso)   #
-      bind(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"") as ?typev)  # <- VAR type 
+      bind(uri(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"")) as ?type)  # <- VAR type 
     } }                                                              #
     #================================================================#---------------------
-    bind(uri(?typev) as ?type)
 
     ?np npx:hasNanopubType ?type .
     filter not exists { ?np npx:hasNanopubType npx:ExampleNanopub . }
