@@ -62,7 +62,7 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
       filter not exists { ?i_npx npx:invalidates ?i_np ; npa:hasValidSignatureForPublicKey ?pubkey . }
     }
     graph ?i_assertion {
-      ?__userid_iri foaf:name ?username .
+      ?userid foaf:name ?username .
     }
   } }
 }
