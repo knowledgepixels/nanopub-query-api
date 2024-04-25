@@ -34,7 +34,7 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
 
     ?np npx:hasNanopubType ?type .
     filter not exists { ?np npx:hasNanopubType npx:ExampleNanopub . }
-  } } }
+  } } order by desc(?date) limit 100 }
   optional { service <https://query.knowledgepixels.com/repo/type/d3V8q_YYTFHCC4sP5dxeE2W39ihEgzUYStVDGaCv_fw> {  # (type: http://purl.org/nanopub/x/declaredBy)
     graph npa:graph {
       ?i_np npa:hasValidSignatureForPublicKey ?pubkey ;
@@ -49,5 +49,5 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
     ?np dct:creator ?__userid_iri .
   }
   bind(?__userid_iri as ?userid)
-} order by desc(?date) limit 50
+} limit 50
     
