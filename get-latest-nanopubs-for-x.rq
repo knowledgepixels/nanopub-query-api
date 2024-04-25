@@ -46,7 +46,7 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
       bind(concat("^([^",?sep,"]*",?sep,"){",str(?n),"}") as ?p)     #
       bind(concat(?sep,".*") as ?p0)                                 #
       filter(if(?n=0,true,regex(?v,?p))) # (=0 check for Virtuoso)   #
-      bind(uri(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"")) as ?pubkey)  # <- VAR pubkey 
+      bind(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"") as ?pubkey)  # <- VAR pubkey 
     } }                                                              #
     #================================================================#---------------------
     filter(?_pubkeys = "" || bound(?pubkey))
