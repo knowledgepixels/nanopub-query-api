@@ -8,7 +8,7 @@ prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 prefix dct: <http://purl.org/dc/terms/>
 prefix foaf: <http://xmlns.com/foaf/0.1/>
 
-select distinct ?np ?label ?userid ?username ?pubkey ?date where {
+select distinct ?np ?label ?userid ?pubkey ?date where {  # ?username
   { select ?np ?label ?pubkey ?date { graph npa:graph {
     ?np npa:hasValidSignatureForPublicKey ?__pubkey  .
     bind(?__pubkey as ?pubkey)
@@ -37,15 +37,15 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
     ?np npx:hasNanopubType ?type .
     filter not exists { ?np npx:hasNanopubType npx:ExampleNanopub . }
   } } order by desc(?date) limit 100 }
-  optional { service <https://query.knowledgepixels.com/repo/type/d3V8q_YYTFHCC4sP5dxeE2W39ihEgzUYStVDGaCv_fw> {  # (type: http://purl.org/nanopub/x/declaredBy)
-    graph npa:graph {
-      ?i_np npa:hasValidSignatureForPublicKey ?pubkey ;
-        np:hasAssertion ?i_assertion .
-      filter not exists { ?i_npx npx:invalidates ?i_np ; npa:hasValidSignatureForPublicKey ?pubkey . }
-    }
-    graph ?i_assertion {
-      ?__userid_iri foaf:name ?username .
-    }
-  } }
+  #optional { service <https://query.knowledgepixels.com/repo/type/d3V8q_YYTFHCC4sP5dxeE2W39ihEgzUYStVDGaCv_fw> {  # (type: http://purl.org/nanopub/x/declaredBy)
+  #  graph npa:graph {
+  #    ?i_np npa:hasValidSignatureForPublicKey ?pubkey ;
+  #      np:hasAssertion ?i_assertion .
+  #    filter not exists { ?i_npx npx:invalidates ?i_np ; npa:hasValidSignatureForPublicKey ?pubkey . }
+  #  }
+  #  graph ?i_assertion {
+  #    ?__userid_iri foaf:name ?username .
+  #  }
+  #} }
 } limit 50
     
