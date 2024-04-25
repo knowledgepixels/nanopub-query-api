@@ -33,14 +33,12 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
     ?np npx:hasNanopubType ?type .
     filter not exists { ?np npx:hasNanopubType npx:ExampleNanopub . }
 
-    ?np npa:hasValidSignatureForPublicKey ?__pubkey  .
-    filter not exists { ?npx npx:invalidates ?np ; npa:hasValidSignatureForPublicKey ?__pubkey . }
-    bind(?__pubkey as ?pubkey)
 
     #=================== MULTI-VALUE PLACEHOLDER ====================#------ config: ------
-    optional { select ?userid {                                                # <- VAR type
-      filter(?_users != "")
-      bind(?_users as ?v)                                            # <- VAR _types
+    optional { select ?pubkey {                                                # <- VAR pubkey
+      filter(?_pubkeys != "")
+      bind(?_pubkeys as ?v)                                            # <- VAR _pubkeys
+      optional {<x:> <x:> ?_pubkeys} # (for grlc to pick it up)        # <- VAR _pubkeys
       {select*{optional{?a ?b ?c}}limit 1} # (for some Virtuoso v.)  #
       values ?x{0 1 2 3 4 5 6 7 8 9} values ?y{0 1 2 3 4 5 6 7 8 9}  #
       bind((10*?x)+?y as ?n) # (works for a maximum of 100 values)   #
@@ -48,7 +46,27 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
       bind(concat("^([^",?sep,"]*",?sep,"){",str(?n),"}") as ?p)     #
       bind(concat(?sep,".*") as ?p0)                                 #
       filter(if(?n=0,true,regex(?v,?p))) # (=0 check for Virtuoso)   #
-      bind(uri(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"")) as ?userid)  # <- VAR type 
+      bind(uri(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"")) as ?pubkey)  # <- VAR pubkey 
+    } }                                                              #
+    #================================================================#---------------------
+    filter(?_pubkeys = "" || bound(?pubkey))
+
+    ?np npa:hasValidSignatureForPublicKey ?pubkey  .
+    filter not exists { ?npx npx:invalidates ?np ; npa:hasValidSignatureForPublicKey ?pubkey . }
+
+    #=================== MULTI-VALUE PLACEHOLDER ====================#------ config: ------
+    optional { select ?userid {                                                # <- VAR userid
+      filter(?_users != "")
+      bind(?_users as ?v)                                            # <- VAR _users
+      optional {<x:> <x:> ?_users} # (for grlc to pick it up)        # <- VAR _users
+      {select*{optional{?a ?b ?c}}limit 1} # (for some Virtuoso v.)  #
+      values ?x{0 1 2 3 4 5 6 7 8 9} values ?y{0 1 2 3 4 5 6 7 8 9}  #
+      bind((10*?x)+?y as ?n) # (works for a maximum of 100 values)   #
+      bind(" " as ?sep) # (separator as regex-compatible character)  # <- CONST sep
+      bind(concat("^([^",?sep,"]*",?sep,"){",str(?n),"}") as ?p)     #
+      bind(concat(?sep,".*") as ?p0)                                 #
+      filter(if(?n=0,true,regex(?v,?p))) # (=0 check for Virtuoso)   #
+      bind(uri(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"")) as ?userid)  # <- VAR userid 
     } }                                                              #
     #================================================================#---------------------
     filter(?_users = "" || bound(?userid))
