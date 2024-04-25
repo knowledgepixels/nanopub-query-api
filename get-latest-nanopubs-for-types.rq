@@ -9,10 +9,11 @@ prefix dct: <http://purl.org/dc/terms/>
 prefix foaf: <http://xmlns.com/foaf/0.1/>
 
 select distinct ?np ?label ?userid ?username ?pubkey ?date where {
-  {select ?np ?label ?pubkey ?date { graph npa:graph {
+  { select ?np ?label ?pubkey ?date { graph npa:graph {
     ?np npa:hasValidSignatureForPublicKey ?__pubkey  .
     bind(?__pubkey as ?pubkey)
     ?np dct:created ?date .
+    ?np dct:creator ?__userid_iri .
     optional { ?np rdfs:label ?label . }
     filter not exists { ?npx npx:invalidates ?np ; npa:hasValidSignatureForPublicKey ?pubkey . }
 
@@ -34,7 +35,7 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
 
     ?np npx:hasNanopubType ?type .
     filter not exists { ?np npx:hasNanopubType npx:ExampleNanopub . }
-  } } order by desc(?date) limit 30 }
+  } } order by desc(?date) limit 100 }
   optional { service <https://query.knowledgepixels.com/repo/type/d3V8q_YYTFHCC4sP5dxeE2W39ihEgzUYStVDGaCv_fw> {  # (type: http://purl.org/nanopub/x/declaredBy)
     graph npa:graph {
       ?i_np npa:hasValidSignatureForPublicKey ?pubkey ;
@@ -45,9 +46,6 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
       ?__userid_iri foaf:name ?username .
     }
   } }
-  graph npa:graph {
-    ?np dct:creator ?__userid_iri .
-  }
   bind(?__userid_iri as ?userid)
-} limit 20
+} limit 50
     
