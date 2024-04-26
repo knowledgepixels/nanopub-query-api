@@ -14,7 +14,7 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
     optional { ?np rdfs:label ?label . }
 
     #=================== MULTI-VALUE PLACEHOLDER ====================#------ config: ------
-    { select ?type {                                                # <- VAR type
+    { select ?type {                                                 # <- VAR type
       bind(?_types as ?v)                                            # <- VAR _types
       optional {<x:> <x:> ?_types} # (for grlc to pick it up)        # <- VAR _types
       {select*{optional{?a ?b ?c}}limit 1} # (for some Virtuoso v.)  #
@@ -24,18 +24,18 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
       bind(concat("^([^",?sep,"]*",?sep,"){",str(?n),"}") as ?p)     #
       bind(concat(?sep,".*") as ?p0)                                 #
       filter(if(?n=0,true,regex(?v,?p))) # (=0 check for Virtuoso)   #
-      bind(uri(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"")) as ?type)  # <- VAR type 
+      bind(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"") as ?val)    #
+      bind(uri(?val) as ?type)                                       # <- VAR type
     } }                                                              #
     #================================================================#---------------------
 
     ?np npx:hasNanopubType ?type .
     filter not exists { ?np npx:hasNanopubType npx:ExampleNanopub . }
 
-
     #=================== MULTI-VALUE PLACEHOLDER ====================#------ config: ------
-    { select ?pubkey {                                                # <- VAR pubkey
-      bind(?_pubkeys as ?v)                                            # <- VAR _pubkeys
-      optional {<x:> <x:> ?_pubkeys} # (for grlc to pick it up)        # <- VAR _pubkeys
+    { select ?pubkey {                                               # <- VAR pubkey
+      bind(?_pubkeys as ?v)                                          # <- VAR _pubkeys
+      optional {<x:> <x:> ?_pubkeys} # (for grlc to pick it up)      # <- VAR _pubkeys
       {select*{optional{?a ?b ?c}}limit 1} # (for some Virtuoso v.)  #
       values ?x{0 1 2 3 4 5 6 7 8 9} values ?y{0 1 2 3 4 5 6 7 8 9}  #
       bind((10*?x)+?y as ?n) # (works for a maximum of 100 values)   #
@@ -43,7 +43,7 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
       bind(concat("^([^",?sep,"]*",?sep,"){",str(?n),"}") as ?p)     #
       bind(concat(?sep,".*") as ?p0)                                 #
       filter(if(?n=0,true,regex(?v,?p))) # (=0 check for Virtuoso)   #
-      bind(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"") as ?pubkey)  # <- VAR pubkey 
+      bind(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"") as ?pubkey) # <- VAR pubkey
     } }                                                              #
     #================================================================#---------------------
 
@@ -61,8 +61,8 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
       bind(concat("^([^",?sep,"]*",?sep,"){",str(?n),"}") as ?p)     #
       bind(concat(?sep,".*") as ?p0)                                 #
       filter(if(?n=0,true,regex(?v,?p))) # (=0 check for Virtuoso)   #
-      bind(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"") as ?val)    # 
-      bind(uri(?val) as ?userid)                                     # <- VAR userid 
+      bind(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"") as ?val)    #
+      bind(uri(?val) as ?userid)                                     # <- VAR userid
     } }                                                              #
     #================================================================#---------------------
 
