@@ -15,8 +15,8 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
 
     #=================== MULTI-VALUE PLACEHOLDER ====================#------ config: ------
     { select ?type {                                                 # <- VAR type
-      bind(?__types as ?v)                                           # <- VAR _types
-      optional {<x:> <x:> ?__types} # (for grlc to pick it up)       # <- VAR _types
+      bind(?__types as ?v)                                           # <- VAR __types
+      optional {<x:> <x:> ?__types} # (for grlc to pick it up)       # <- VAR __types
       {select*{optional{?a ?b ?c}}limit 1} # (for some Virtuoso v.)  #
       values ?x{0 1 2 3 4 5 6 7 8 9} values ?y{0 1 2 3 4 5 6 7 8 9}  #
       bind((10*?x)+?y as ?n) # (works for a maximum of 100 values)   #
@@ -33,9 +33,9 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
     filter not exists { ?np npx:hasNanopubType npx:ExampleNanopub . }
 
     #=================== MULTI-VALUE PLACEHOLDER ====================#------ config: ------
-    { select ?pubkey {                                               # <- VAR pubkey
-      bind(?__pubkeys as ?v)                                         # <- VAR _pubkeys
-      optional {<x:> <x:> ?__pubkeys} # (for grlc to pick it up)     # <- VAR _pubkeys
+    { select ?pkh {                                                  # <- VAR pkh
+      bind(?__pubkey_hashes as ?v)                                   # <- VAR __pubkey_hashes
+      optional {<x:> <x:> ?__pubkey_hashes} # (for grlc to pick ...) # <- VAR __pubkey_hashes
       {select*{optional{?a ?b ?c}}limit 1} # (for some Virtuoso v.)  #
       values ?x{0 1 2 3 4 5 6 7 8 9} values ?y{0 1 2 3 4 5 6 7 8 9}  #
       bind((10*?x)+?y as ?n) # (works for a maximum of 100 values)   #
@@ -43,17 +43,17 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
       bind(concat("^([^",?sep,"]*",?sep,"){",str(?n),"}") as ?p)     #
       bind(concat(?sep,".*") as ?p0)                                 #
       filter(if(?n=0,true,regex(?v,?p))) # (=0 check for Virtuoso)   #
-      bind(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"") as ?pubkey) # <- VAR pubkey
+      bind(replace(if(?n=0,?v,replace(?v,?p,"")),?p0,"") as ?pkh)    # <- VAR pkh
     } }                                                              #
     #================================================================#---------------------
 
-    ?np npa:hasValidSignatureForPublicKey ?pubkey  .
-    filter not exists { ?npx npx:invalidates ?np ; npa:hasValidSignatureForPublicKey ?pubkey . }
+    ?np npa:hasValidSignatureForPublicKeyHash ?pkh  .
+    filter not exists { ?npx npx:invalidates ?np ; npa:hasValidSignatureForPublicKeyHash ?pkh . }
 
     #=================== MULTI-VALUE PLACEHOLDER ====================#------ config: ------
     { select ?userid {                                               # <- VAR userid
-      bind(?__users as ?v)                                           # <- VAR _users
-      optional {<x:> <x:> ?__users} # (for grlc to pick it up)       # <- VAR _users
+      bind(?__users as ?v)                                           # <- VAR __users
+      optional {<x:> <x:> ?__users} # (for grlc to pick it up)       # <- VAR __users
       {select*{optional{?a ?b ?c}}limit 1} # (for some Virtuoso v.)  #
       values ?x{0 1 2 3 4 5 6 7 8 9} values ?y{0 1 2 3 4 5 6 7 8 9}  #
       bind((10*?x)+?y as ?n) # (works for a maximum of 100 values)   #
@@ -70,9 +70,9 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
   } } order by desc(?date) limit 50 }
   optional { service <https://query.np.trustyuri.net/repo/type/77757cabf6184c51c20b8b0fe5dc5e1365b7f628448335184ad54319a0affdfc> {  # (type: http://purl.org/nanopub/x/declaredBy)
     graph npa:graph {
-      ?i_np npa:hasValidSignatureForPublicKey ?pubkey ;
+      ?i_np npa:hasValidSignatureForPublicKeyHash ?pkh ;
         np:hasAssertion ?i_assertion .
-      filter not exists { ?i_npx npx:invalidates ?i_np ; npa:hasValidSignatureForPublicKey ?pubkey . }
+      filter not exists { ?i_npx npx:invalidates ?i_np ; npa:hasValidSignatureForPublicKeyHash ?pkh . }
     }
     graph ?i_assertion {
       ?userid foaf:name ?username .
