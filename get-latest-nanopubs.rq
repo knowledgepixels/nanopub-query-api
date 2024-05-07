@@ -1,4 +1,4 @@
-#+ endpoint: https://query.knowledgepixels.com/repo/last30d
+#+ endpoint: https://query.np.trustyuri.net/repo/last30d
 
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix np: <http://www.nanopub.org/nschema#>
@@ -18,7 +18,7 @@ select distinct ?np ?label ?userid ?username ?date where {
     filter not exists { ?np npx:hasNanopubType npx:retracts . }
   } } order by desc(?date) limit 50 }
   optional { graph npa:graph { ?np dct:creator ?userid . } }
-  optional { service <https://query.knowledgepixels.com/repo/type/d3V8q_YYTFHCC4sP5dxeE2W39ihEgzUYStVDGaCv_fw> {  # (type: http://purl.org/nanopub/x/declaredBy)
+  optional { service <https://query.np.trustyuri.net/repo/type/77757cabf6184c51c20b8b0fe5dc5e1365b7f628448335184ad54319a0affdfc> {  # (type: http://purl.org/nanopub/x/declaredBy)
     graph npa:graph {
       ?i_np npa:hasValidSignatureForPublicKey ?pubkey ;
         np:hasAssertion ?i_assertion .
