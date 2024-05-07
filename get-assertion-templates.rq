@@ -1,4 +1,4 @@
-#+ endpoint: https://query.knowledgepixels.com/repo/type/eTQjVtOmgGOmJ-g6w0s3ZHnkOKu4pMSyfUn4RfU33I0
+#+ endpoint: https://query.np.trustyuri.net/repo/type/79342356d3a68063a627e83ac34b376479e438abb8a4c4b27d49f845f537dc8d
 
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix np: <http://www.nanopub.org/nschema#>
