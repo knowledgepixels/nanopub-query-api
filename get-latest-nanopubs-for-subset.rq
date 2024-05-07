@@ -1,4 +1,4 @@
-#+ endpoint: https://query.np.trustyuri.net/repo/meta
+#+ endpoint: https://query.knowledgepixels.com/repo/meta
 
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix np: <http://www.nanopub.org/nschema#>
@@ -68,7 +68,7 @@ select distinct ?np ?label ?userid ?username ?pubkey ?date where {
 
     ?np dct:creator ?userid .
   } } order by desc(?date) limit 50 }
-  optional { service <https://query.np.trustyuri.net/repo/type/77757cabf6184c51c20b8b0fe5dc5e1365b7f628448335184ad54319a0affdfc> {  # (type: http://purl.org/nanopub/x/declaredBy)
+  optional { service <https://query.knowledgepixels.com/repo/type/77757cabf6184c51c20b8b0fe5dc5e1365b7f628448335184ad54319a0affdfc> {  # (type: http://purl.org/nanopub/x/declaredBy)
     graph npa:graph {
       ?i_np npa:hasValidSignatureForPublicKeyHash ?pkh ;
         np:hasAssertion ?i_assertion .
