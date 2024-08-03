@@ -28,6 +28,6 @@ select distinct ?np ?label ?userid ?username ?date where {
       ?userid_intro foaf:name ?username .
     }
   } }
-  filter(?userid = coalesce(?userid_intro, ?userid))
+  filter(?userid = coalesce(?userid_intro, ?userid) || (!bound(?userid) && !bound(?userid_intro)))
 }
     
